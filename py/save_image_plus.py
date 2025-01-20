@@ -21,7 +21,8 @@ class SaveImagePlus:
                     {"images": ("IMAGE", ),
                      "custom_path": ("STRING", {"default": ""}),
                      "filename_prefix": ("STRING", {"default": "comfyui"}),
-                     "timestamp": (["None", "second", "millisecond"],),
+                     "timestamp": (["None", "second", "millisecond", "fixed"],),
+                     "timestamp_fixed": ("STRING", {"default": ""}),
                      "format": (["png", "jpg"],),
                      "quality": ("INT", {"default": 80, "min": 10, "max": 100, "step": 1}),
                      "meta_data": ("BOOLEAN", {"default": False}),
@@ -38,7 +39,7 @@ class SaveImagePlus:
     CATEGORY = '😺dzNodes/LayerUtility/SystemIO'
 
     def save_image_plus(self, images, custom_path, filename_prefix, timestamp, format, quality,
-                           meta_data, blind_watermark, preview, save_workflow_as_json,
+                           meta_data, blind_watermark, preview, save_workflow_as_json, timestamp_fixed,
                            prompt=None, extra_pnginfo=None):
 
         now = datetime.datetime.now()
@@ -92,6 +93,8 @@ class SaveImagePlus:
                 file = f'{filename}_{now.strftime("%Y-%m-%d_%H-%M-%S-%f")[:-3]}'
             elif timestamp == "second":
                 file = f'{filename}_{now.strftime("%Y-%m-%d_%H-%M-%S")}'
+            elif timestamp == "fixed":
+                file = f'{filename}_{timestamp_fixed}'
             else:
                 file = f'{filename}_{counter:05}'
 
